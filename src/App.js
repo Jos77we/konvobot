@@ -21,12 +21,13 @@ function App() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/data");
-        const { accountData1, mnemo } = res.data;
+        const res = await axios.get("https://konvobotwhatsapp.loca.lt/data");
+        const { accountData1, mnemo, usname } = res.data;
         const { data } = accountData1;
 
         setForm((prevForm) => ({
           ...prevForm,
+          username: usname,
           publicKey: data["public key"],
           paymail: data.paymail,
           secretKey: data["secret key"],
@@ -50,7 +51,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/signup", form);
+      const response = await axios.post('https://api.kipaji.app/api/v1/auth/register', form);
       console.log(response.data);
     } catch (error) {
       console.error("There was an error!", error);
