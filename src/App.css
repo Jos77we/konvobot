@@ -1,24 +1,85 @@
-.container-box{
+.container-size {
+  height: 99vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-box {
   height: 96vh;
-  width: 35%; 
+  width: 35%;
   background-color: rgb(226, 226, 226);
   margin-right: auto;
   margin-left: auto;
-  border-radius: 6px;
+  border-radius: 4px;
   display: grid;
 }
 
-.container-layout{
+.container-layout {
   height: 80vh;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
- 
 }
 
-.container-input{
+.container-input {
   height: 5vh;
   width: 80%;
   border-radius: 10px;
   border: none;
+}
+
+.confirm-box {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-container {
+  height: 180px;
+  width: 40%;
+  background: gray;
+  border-radius: 4px;
+}
+
+.login-container {
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-tab {
+  height: 60vh;
+  width: 30%;
+  background-color: gray;
+  border: 1px solid black;
+}
+
+@media (max-width: 600px) {
+  .container-box {
+    height: 60vh;
+    width: 80%;
+    background-color: rgb(226, 226, 226);
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 4px;
+    display: grid;
+  }
+  .container-input {
+    height: 4vh;
+    width: 90%;
+  }
+
+  .login-tab {
+    height: 40vh;
+    width: 75%;
+  }
+
+  .confirm-container {
+    height: 20vh;
+    width: 80%;
+    background: gray;
+  }
 }

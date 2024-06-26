@@ -3,7 +3,7 @@ import "./App.css";
 import axios from "axios";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 
-function App() {
+function CreateUser() {
   const [form, setForm] = useState({
     username: "",
     paymail: "",
@@ -19,9 +19,11 @@ function App() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
+    const getData = async (name) => {
       try {
-        const res = await axios.get("https://konvobotwhatsapp.loca.lt/data");
+        const res = await axios.post("https://konvobotwhatsapp.loca.lt/data", {
+          name,
+        });
         const { accountData1, mnemo, usname } = res.data;
         const { data } = accountData1;
 
@@ -51,7 +53,10 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://api.kipaji.app/api/v1/auth/register', form);
+      const response = await axios.post(
+        "https://api.kipaji.app/api/v1/auth/register",
+        form
+      );
       console.log(response.data);
     } catch (error) {
       console.error("There was an error!", error);
@@ -59,6 +64,8 @@ function App() {
   };
 
   return (
+    <>
+    <div className="container-size">
     <div className="container-box">
       <form onSubmit={handleSubmit}>
         <div className="container-layout">
@@ -109,21 +116,6 @@ function App() {
             </div>
           </div>
 
-          <div style={{ marginTop: "20px", height: "60px", diplay: "grid" }}>
-            <div>
-              <p style={{ fontSize: "0.9rem", marginTop: "-7px" }}>Username</p>
-            </div>
-            <div>
-              <input
-                className="container-input"
-                style={{ marginTop: "-6px" }}
-                type="text"
-                name="username"
-                value={form.name}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
           <div style={{ marginTop: "20px", height: "60px", diplay: "grid" }}>
             <p style={{ fontSize: "0.9rem", marginTop: "-7px" }}>Email</p>
             <input
@@ -188,7 +180,9 @@ function App() {
         </div>
       </form>
     </div>
+    </div>
+    </>
   );
 }
 
-export default App;
+export default CreateUser;
