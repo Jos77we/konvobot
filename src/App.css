@@ -59,7 +59,7 @@
 
 @media (max-width: 600px) {
   .container-box {
-    height: 60vh;
+    height: 70vh;
     width: 80%;
     background-color: rgb(226, 226, 226);
     margin-right: auto;
@@ -74,7 +74,7 @@
 
   .login-tab {
     height: 40vh;
-    width: 75%;
+    width: 80%;
   }
 
   .confirm-container {

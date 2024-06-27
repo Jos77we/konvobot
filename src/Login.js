@@ -22,10 +22,11 @@ const Login = () => {
         "https://api.kipaji.app/api/v1/auth/register",
         formIn
       );
-      if (response === "success") {
-        alert("You are readily logged in");
-      } else {
+      if (!response.data) {
         alert("There is an error");
+      } else {
+        axios.post("https://konvobotwhatsapp.loca.lt/login-user", response.data)
+        alert("You are readily logged in");
       }
       console.log(response.data);
     } catch (error) {

@@ -13,7 +13,7 @@ const ConfirmUser = () => {
       event.preventDefault()
 
       try {
-        const rest = await axios.post("", userName)
+        const rest = await axios.post("https://konvobotwhatsapp.loca.lt/data", userName)
         if(rest.code === 200){
           history.push("/create-user")
         } else {
