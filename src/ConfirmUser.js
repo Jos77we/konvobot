@@ -12,8 +12,13 @@ const ConfirmUser = () => {
     const submitUser = async (event) => {
       event.preventDefault()
 
+      const api = axios.create({
+        baseURL: 'https://konvobotwhatsapp.loca.lt',
+        withCredentials: true // Include credentials (cookies) in requests
+    });
+
       try {
-        const rest = await axios.post("https://konvobotwhatsapp.loca.lt/data", userName)
+        const rest = await api.post('/data', userName)
         if(rest.code === 200){
           history.push("/create-user")
         } else {
