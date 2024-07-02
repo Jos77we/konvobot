@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
+import { useLocation } from 'react-router-dom';
 
 function CreateUser() {
+
+  const { state } = useLocation();
+  const userName = state?.userName || '';
+
   const [form, setForm] = useState({
     username: "",
     paymail: "",
@@ -19,12 +24,12 @@ function CreateUser() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const getData = async (name) => {
+    const getData = async () => {
       try {
-        const res = await axios.post("https://konvobotwhatsapp.loca.lt/data", {
-          name,
-        });
-        const { accountData1, mnemo, usname } = res.data;
+        const res = await axios.post('http://localhost:3000/data', {userName});
+        console.log(res.data)
+        const {  accountData1, mnemo, usname } = res.data;
+        console.log("accountDetails:", accountDetails);
         const { data } = accountData1;
 
         setForm((prevForm) => ({
@@ -40,6 +45,7 @@ function CreateUser() {
       }
     };
     getData();
+    // eslint-disable-next-line 
   }, []);
 
   const handleChange = (e) => {
@@ -54,8 +60,8 @@ function CreateUser() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://api.kipaji.app/api/v1/auth/register",
-        form
+        'http://localhost:3000/create',
+        {form}
       );
       console.log(response.data);
     } catch (error) {

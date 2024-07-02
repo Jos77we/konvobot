@@ -25,7 +25,7 @@ const Login = () => {
       if (!response.data) {
         alert("There is an error");
       } else {
-        axios.post("https://konvobotwhatsapp.loca.lt/login-user", response.data)
+        axios.post("http://localhost:3000/login-user", {response})
         alert("You are readily logged in");
       }
       console.log(response.data);

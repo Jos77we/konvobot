@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const ConfirmUser = () => {
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(" ");
   const history = useNavigate();
 
 
-    const submitUser = async (event) => {
-      event.preventDefault()
+    const submitUser = async (e) => {
+      e.preventDefault()
 
-      const api = axios.create({
-        baseURL: 'https://konvobotwhatsapp.loca.lt',
-        withCredentials: true // Include credentials (cookies) in requests
-    });
+    //   const api = axios.create({
+    //     baseURL: 'https://konvobotwhatsapp.loca.lt',
+    //     withCredentials: true // Include credentials (cookies) in requests
+    // });
 
       try {
-        const rest = await api.post('/data', userName)
-        if(rest.code === 200){
-          history.push("/create-user")
-        } else {
-          alert("User not found")
+        const rest = await axios.post('http://localhost:3000/data', {userName})
+        console.log(rest.data.code)
+        if(rest.data.code === "200"){
+          history("/create-user", { state: { userName } })
+          
         }
       } catch (error) {
         console.log(error)
