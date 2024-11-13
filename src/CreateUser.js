@@ -112,11 +112,9 @@ function CreateUser() {
           </div>
           <div className="heading-create">
             <p
+            className="header-paragraph"
               style={{
-                fontSize: "1.6rem",
-                textAlign: "center",
                 fontFamily: "Montserrat",
-                fontWeight: "700",
               }}
             >
               Sign Up for an account
@@ -133,7 +131,7 @@ function CreateUser() {
                     className="container-input"
                     style={{
                       marginTop: "0px",
-                      marginLeft: "40px",
+                      marginLeft: "30px",
                       width: "84%",
                     }}
                     type="text"
@@ -151,7 +149,7 @@ function CreateUser() {
                       className="container-input"
                       style={{
                         marginTop: "0px",
-                        marginLeft: "40px",
+                        marginLeft: "30px",
                         width: "84%",
                       }}
                       type={showPassword ? "text" : "password"}
@@ -162,13 +160,7 @@ function CreateUser() {
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
-                      style={{
-                        position: "absolute",
-                        right: "60px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        cursor: "pointer",
-                      }}
+                      className="show-password"
                     >
                       {showPassword ? <RiEyeCloseLine /> : <RiEyeLine />}
                     </span>

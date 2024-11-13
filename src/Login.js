@@ -55,7 +55,7 @@ const Login = () => {
          <h4 style={{marginBottom:"5px", fontFamily:'Poppins', fontSize:'0.8rem'}}>Benkiko DAO</h4>
         </div>
       <div className="login-category">
-        <p style={{textAlign:"center", fontFamily: 'Montserrat', fontSize:"1.8rem", fontWeight:"bolder" }}>Welcome Back</p>
+        <p style={{fontFamily: 'Montserrat' }} className="header-login">Welcome Back</p>
         <div
           style={{
             height: "80%",
@@ -79,7 +79,6 @@ const Login = () => {
             <div>
               <input
                 className="container-input"
-                style={{ marginTop: "30px"}}
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -87,7 +86,7 @@ const Login = () => {
                 onChange={handleChange}
               />
             </div>
-            <p style={{fontFamily:'Rubik'}} className="password">Forgot Password?</p>
+            <p style={{fontFamily:'Rubik', fontSize:'0.7rem'}} className="password">Forgot Password?</p>
             <button
               type="submit"
              className="button-layout"

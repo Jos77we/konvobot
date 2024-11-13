@@ -1,7 +1,6 @@
 .container-size {
   height: 99vh;
   width: 100%;
-  /* border: 1px solid black; */
 
 }
 
@@ -49,6 +48,7 @@
   border: 0.5px solid rgb(190, 190, 190);
   margin-left: 30px;
 color: black;
+margin-top: 30px;
 margin-top: 30px;
 }
 
@@ -247,10 +247,33 @@ display: grid;
   margin-left: 30px;
 }
 
+.show-password{
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.header-paragraph{
+  font-size: 1.6rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.header-login{
+  text-align: center;  
+  font-size: 1.6rem; 
+  font-weight:bolder;
+}
+
 @media (max-width: 500px) {
+  .container-size{
+    height: 90vh;
+  }
   .container-spilt{
     width: 100%;
-    margin-top: 100px;
+    margin-top: 50px;
   }
   .container-box {
     height: 40vh;
@@ -264,7 +287,7 @@ display: grid;
   .container-input {
     height: 4vh;
     width: 90%;
-    margin-left: 20px;
+    margin-left: 10px;
   }
 
   .login-tab {
@@ -291,7 +314,7 @@ display: grid;
 
   .button-layout{
     width: 200px;
-    margin-left: 50px;
+    margin-left: 25px;
     margin-top: 30px;
   }
   .password{
@@ -303,9 +326,22 @@ display: grid;
   }
 
   .create-button{
-    margin-top: 100px;
+    margin-top: 60px;
     height: 50px;
     width: 80%;
+    margin-left: 10px;
+  }
+
+  .show-password{
+    right: 30px;
+  }
+
+  .header-paragraph{
+    font-size: 1.2rem;
+  }
+
+  .header-login{
+    font-size: 1.3rem;
   }
 }
 
