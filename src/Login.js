@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
-import axios from 'axios'
+import axios from "axios";
+import img1 from './images/benkikologo.jpg'
+import WebFont from 'webfontloader';
+
+WebFont.load({
+  google: {
+    families: ['Rubik', 'Poppins', 'Montserrat']
+  }
+});
 
 const Login = () => {
   const [formIn, setFormIn] = useState({
@@ -15,67 +23,80 @@ const Login = () => {
       [name]: value,
     });
   };
+
   const formSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://api.kipaji.app/api/v1/auth/register",
+        "http://localhost:3000/whatsapp/login-user",
         formIn
       );
-      if (!response.data) {
-        alert("There is an error");
+
+      if (response.status === 200) {
+        alert("Login successful");
+      } else if (response.status === 400) {
+        alert("Error in obtaining details");
       } else {
-        axios.post("http://localhost:3000/login-user", {response})
-        alert("You are readily logged in");
+        alert("Internal error");
       }
+
       console.log(response.data);
     } catch (error) {
       console.log(error);
+      alert("An error occurred. Please try again.");
     }
   };
+
   return (
     <div className="login-container">
       <div className="login-tab">
-        <h5>Login To Benkiko</h5>
+        <div className="logo-item">
+         <img src={img1} alt="logo" style={{height:"50px", width:"50px", borderRadius:"50%"}}/>
+         <h4 style={{marginBottom:"5px", fontFamily:'Poppins', fontSize:'0.8rem'}}>Benkiko DAO</h4>
+        </div>
+      <div className="login-category">
+        <p style={{textAlign:"center", fontFamily: 'Montserrat', fontSize:"1.8rem", fontWeight:"bolder" }}>Welcome Back</p>
         <div
           style={{
-            height: "200px",
-            width: "85%",
-            border: "1px green solid",
+            height: "80%",
+            width: "70%",
             marginLeft: "auto",
             marginRight: "auto",
-            marginTop: "15%",
+            marginTop: "6%",
           }}
         >
           <form onSubmit={formSubmit}>
             <div>
-              <p style={{ fontSize: "0.9rem", marginTop: "10px" }}>Paymail</p>
+              <input
+                className="container-input"
+                type="text"
+                name="paymail"
+                value={formIn.paymail}
+                onChange={handleChange}
+                placeholder="Paymail"
+              />
             </div>
             <div>
               <input
                 className="container-input"
-                style={{ marginTop: "-6px", width: "75%" }}
-                type="text"
-                name="firstname"
-                value={formIn.name}
+                style={{ marginTop: "30px"}}
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formIn.password}
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <p style={{ fontSize: "0.9rem", marginTop: "10px" }}>Password</p>
-            </div>
-            <div>
-              <input
-                className="container-input"
-                style={{ marginTop: "-6px", width: "75%" }}
-                type="text"
-                name="firstname"
-                value={formIn.name}
-                onChange={handleChange}
-              />
-            </div>
+            <p style={{fontFamily:'Rubik'}} className="password">Forgot Password?</p>
+            <button
+              type="submit"
+             className="button-layout"
+            >
+              Submit
+            </button>
           </form>
         </div>
+      </div>
       </div>
     </div>
   );

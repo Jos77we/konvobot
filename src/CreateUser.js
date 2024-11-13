@@ -2,12 +2,19 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
+import image1 from "./images/benkikologo.jpg";
+import WebFont from "webfontloader";
+
+WebFont.load({
+  google: {
+    families: ["Rubik", "Poppins", "Montserrat"],
+  },
+});
 
 function CreateUser() {
-
   const { state } = useLocation();
-  const userName = state?.userName || '';
+  const userName = state?.userName || "";
 
   const [form, setForm] = useState({
     username: "",
@@ -17,8 +24,8 @@ function CreateUser() {
     secretKey: "",
     mnemonic: "",
     email: "",
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -26,18 +33,32 @@ function CreateUser() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.post('http://localhost:3000/data', {userName});
-        console.log(res.data)
-        const {  accountData1, mnemo, usname } = res.data;
-        console.log("accountDetails:", accountDetails);
-        const { data } = accountData1;
+        const res = await axios.post("http://localhost:3000/data", {
+          userName,
+        });
+        console.log(res.data);
+        const {
+          accountDetails: {
+            accountData1: {
+              data: {
+                "public key": publicKey,
+                "secret key": secretKey,
+                paymail,
+              },
+            },
+            mnemo,
+            usname,
+          },
+        } = res.data;
+        console.log("accountDetails:", res.data.accountDetails.accountData1);
+        // const { data } = accountData1;
 
         setForm((prevForm) => ({
           ...prevForm,
           username: usname,
-          publicKey: data["public key"],
-          paymail: data.paymail,
-          secretKey: data["secret key"],
+          publicKey: publicKey,
+          paymail: paymail,
+          secretKey: secretKey,
           mnemonic: mnemo,
         }));
       } catch (error) {
@@ -45,7 +66,7 @@ function CreateUser() {
       }
     };
     getData();
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, []);
 
   const handleChange = (e) => {
@@ -60,8 +81,8 @@ function CreateUser() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/create',
-        {form}
+        "http://localhost:3000/whatsapp/create",
+        { form }
       );
       console.log(response.data);
     } catch (error) {
@@ -71,122 +92,109 @@ function CreateUser() {
 
   return (
     <>
-    <div className="container-size">
-    <div className="container-box">
-      <form onSubmit={handleSubmit}>
-        <div className="container-layout">
-          <div style={{ height: "120px", marginTop: "20px" }}>
-            <div
-              style={{
-                height: "60px",
-                width: "200px",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            ></div>
-            <h5 style={{ marginTop: "-4px", color: "GrayText" }}>
-              Welcome To Benkiko
-            </h5>
-            <h3 style={{ marginTop: "-18px" }}>Complete your Sign Up</h3>
-          </div>
-          <div style={{ marginTop: "20px", height: "60px", diplay: "grid" }}>
-            <div>
-              <p style={{ fontSize: "0.9rem", marginTop: "-7px" }}>
-                First Name
-              </p>
-            </div>
-            <div>
-              <input
-                className="container-input"
-                style={{ marginTop: "-6px" }}
-                type="text"
-                name="firstname"
-                value={form.name}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <div style={{ marginTop: "20px", height: "60px", diplay: "grid" }}>
-            <div>
-              <p style={{ fontSize: "0.9rem", marginTop: "-7px" }}>Last Name</p>
-            </div>
-            <div>
-              <input
-                className="container-input"
-                style={{ marginTop: "-6px" }}
-                type="text"
-                name="lastname"
-                value={form.name}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginTop: "20px", height: "60px", diplay: "grid" }}>
-            <p style={{ fontSize: "0.9rem", marginTop: "-7px" }}>Email</p>
-            <input
-              className="container-input"
-              type="email"
-              name="email"
-              value={form.name}
-              onChange={handleChange}
+      <div className="container-size">
+        <div className="container-spilt">
+          <div className="logo-item">
+            <img
+              src={image1}
+              alt="logo"
+              style={{ height: "50px", width: "50px", borderRadius: "50%" }}
             />
-          </div>
-          <div style={{ marginTop: "20px", height: "60px", diplay: "grid" }}>
-            <p style={{ fontSize: "0.9rem", marginTop: "-7px" }}>
-              New Password
-            </p>
-            <div style={{ position: "relative" }}>
-              <input
-                className="container-input"
-                style={{ marginTop: "-10px" }}
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={form.name}
-                onChange={handleChange}
-              />
-              <span
-                onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer",
-                }}
-              >
-                {showPassword ? <RiEyeCloseLine /> : <RiEyeLine />}
-              </span>
-            </div>
-          </div>
-          <div
-            style={{
-              marginTop: "20px",
-              display: "flex",
-              alignItems: "center",
-              height: "50px",
-              justifyContent: "center",
-            }}
-          >
-            <button
-              type="submit"
+            <h4
               style={{
-                width: "70%",
-                height: "40px",
-                borderRadius: "12px",
-                border: "none",
-                backgroundColor: "yellow",
-                fontWeight: "600",
-                color: "white",
+                marginBottom: "5px",
+                fontFamily: "Poppins",
+                fontSize: "0.8rem",
               }}
             >
-              Sign Up
-            </button>
+              Benkiko DAO
+            </h4>
+          </div>
+          <div className="heading-create">
+            <p
+              style={{
+                fontSize: "1.6rem",
+                textAlign: "center",
+                fontFamily: "Montserrat",
+                fontWeight: "700",
+              }}
+            >
+              Sign Up for an account
+            </p>
+          </div>
+          <div className="container-box">
+            <form onSubmit={handleSubmit}>
+              <div className="container-layout">
+                
+                <div
+                  style={{ marginTop: "10px", height: "60px", diplay: "grid" }}
+                >
+                  <input
+                    className="container-input"
+                    style={{
+                      marginTop: "0px",
+                      marginLeft: "40px",
+                      width: "84%",
+                    }}
+                    type="text"
+                    name="phone"
+                    value={form.name}
+                    placeholder="Phone No"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div
+                  style={{ marginTop: "10px", height: "60px", diplay: "grid" }}
+                >
+                  <div style={{ position: "relative" }}>
+                    <input
+                      className="container-input"
+                      style={{
+                        marginTop: "0px",
+                        marginLeft: "40px",
+                        width: "84%",
+                      }}
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={form.name}
+                      onChange={handleChange}
+                      placeholder="Password"
+                    />
+                    <span
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        position: "absolute",
+                        right: "60px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {showPassword ? <RiEyeCloseLine /> : <RiEyeLine />}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    marginTop: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    height: "50px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button
+                    type="submit"
+                   className="create-button"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </form>
-    </div>
-    </div>
+      </div>
     </>
   );
 }
