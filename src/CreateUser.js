@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
-import { useLocation } from "react-router-dom";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import image1 from "./images/benkikologo.jpg";
 import WebFont from "webfontloader";
 
@@ -13,80 +13,46 @@ WebFont.load({
 });
 
 function CreateUser() {
-  const { state } = useLocation();
-  const userName = state?.userName || "";
-
-  const [form, setForm] = useState({
-    username: "",
-    paymail: "",
-    password: "",
-    publicKey: "",
-    secretKey: "",
-    mnemonic: "",
-    email: "",
-    firstname: "",
-    lastname: "",
-  });
-
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.post("http://localhost:3000/data", {
-          userName,
-        });
-        console.log(res.data);
-        const {
-          accountDetails: {
-            accountData1: {
-              data: {
-                "public key": publicKey,
-                "secret key": secretKey,
-                paymail,
-              },
-            },
-            mnemo,
-            usname,
-          },
-        } = res.data;
-        console.log("accountDetails:", res.data.accountDetails.accountData1);
-        // const { data } = accountData1;
-
-        setForm((prevForm) => ({
-          ...prevForm,
-          username: usname,
-          publicKey: publicKey,
-          paymail: paymail,
-          secretKey: secretKey,
-          mnemonic: mnemo,
-        }));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    getData();
-    // eslint-disable-next-line
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
+    setIsSuccess(false);
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/whatsapp/create",
-        { form }
+        "https://auth-backend-1-cluk.onrender.com/api/auth/register",
+        { phoneNumber, password },
+        {
+          headers: {
+            "x-api-key":
+              "GCQI626CM2QRQH4MPOSW5D7GDEUGBY54J3XUAMIPNE4VAXIFGFQN34V5",
+            "Content-Type": "application/json",
+          },
+        }
       );
-      console.log(response.data);
+
+      if (response.data) {
+        const publicKey = response.data.stellarPublicKey;
+        const accRes = await axios.post(
+          "https://konvobotwhatsapp.loca.lt/user/create-user",
+          { phoneNumber, publicKey }
+        );
+        if (accRes.data) {
+          setIsSuccess(true);
+        }
+        console.log(accRes.data);
+      }
+      // console.log(response.data, response.data.stellarPublicKey);
     } catch (error) {
       console.error("There was an error!", error);
+      setIsSuccess(false); 
+    }finally {
+      setIsLoading(false); 
     }
   };
 
@@ -112,7 +78,7 @@ function CreateUser() {
           </div>
           <div className="heading-create">
             <p
-            className="header-paragraph"
+              className="header-paragraph"
               style={{
                 fontFamily: "Montserrat",
               }}
@@ -123,7 +89,6 @@ function CreateUser() {
           <div className="container-box">
             <form onSubmit={handleSubmit}>
               <div className="container-layout">
-                
                 <div
                   style={{ marginTop: "10px", height: "60px", diplay: "grid" }}
                 >
@@ -135,10 +100,9 @@ function CreateUser() {
                       width: "84%",
                     }}
                     type="text"
-                    name="phone"
-                    value={form.name}
+                    value={phoneNumber}
                     placeholder="Phone No"
-                    onChange={handleChange}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
                 <div
@@ -153,9 +117,8 @@ function CreateUser() {
                         width: "84%",
                       }}
                       type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={form.name}
-                      onChange={handleChange}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
                     />
                     <span
@@ -175,11 +138,16 @@ function CreateUser() {
                     justifyContent: "center",
                   }}
                 >
-                  <button
-                    type="submit"
-                   className="create-button"
-                  >
-                    Sign Up
+                  <button type="submit" className="create-button">
+                    {isLoading ? (
+                      <span>
+                        <AiOutlineLoading3Quarters />
+                      </span> // Replace with your loading icon
+                    ) : isSuccess ? (
+                      "Success" // Success message/icon
+                    ) : (
+                      "Sign Up"
+                    )}
                   </button>
                 </div>
               </div>
