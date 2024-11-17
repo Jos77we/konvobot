@@ -40,12 +40,7 @@ const Login = () => {
         const publicKey = response.data.stellarPublicKey;
         const accRes = await axios.post(
           "https://konvobotwhatsapp.loca.lt/login/user-login",
-          { phoneNumber, publicKey },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          { phoneNumber, publicKey }
         );
         if (accRes.data) {
           setIsSuccess(true);
