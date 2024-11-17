@@ -40,9 +40,12 @@ function CreateUser() {
         const publicKey = response.data.stellarPublicKey;
         const accRes = await axios.post(
           "https://konvobotwhatsapp.loca.lt/user/create-user",
-          { phoneNumber, publicKey }, {  headers: {
-            "Content-Type": "application/json",
-          },}
+          { phoneNumber, publicKey },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         if (accRes.data) {
           setIsSuccess(true);
@@ -52,9 +55,9 @@ function CreateUser() {
       // console.log(response.data, response.data.stellarPublicKey);
     } catch (error) {
       console.error("There was an error!", error);
-      setIsSuccess(false); 
-    }finally {
-      setIsLoading(false); 
+      setIsSuccess(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
