@@ -39,7 +39,7 @@ const Login = () => {
       if (response.data) {
         const publicKey = response.data.stellarPublicKey;
         const accRes = await axios.post(
-          "https://konvobotwhatsapp.loca.lt/login/user-login",
+          "https://konvobotchat.onrender.com/login/user-login",
           { phoneNumber, publicKey }
         );
         if (accRes.data) {

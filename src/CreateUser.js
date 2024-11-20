@@ -39,7 +39,7 @@ function CreateUser() {
       if (response.data) {
         const publicKey = response.data.stellarPublicKey;
         const accRes = await axios.post(
-          "https://konvobotwhatsapp.loca.lt/user/create-user",
+          "https://konvobotchat.onrender.com/user/create-user",
           { phoneNumber, publicKey }
         );
         if (accRes.data) {
