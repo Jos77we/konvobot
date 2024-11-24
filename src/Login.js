@@ -5,6 +5,8 @@ import img1 from "./images/benkikologo.jpg";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import WebFont from "webfontloader";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 WebFont.load({
   google: {
@@ -25,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://auth-backend-1-cluk.onrender.com/api/auth/login",
+        "https://auth-backend-py1a.vercel.app/api/auth/login",
         { phoneNumber, password },
         {
           headers: {
@@ -37,19 +39,27 @@ const Login = () => {
       );
 
       if (response.data) {
-        const publicKey = response.data.stellarPublicKey;
+        const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
           "https://konvobotchat.onrender.com/login/user-login",
           { phoneNumber, publicKey }
         );
         if (accRes.data) {
           setIsSuccess(true);
+          toast.success('Account Successfully Created!');
         }
         console.log(accRes.data);
       }
       // console.log(response.data, response.data.stellarPublicKey);
     } catch (error) {
-      console.error("There was an error!", error);
+      if (error.response.status === 400) {
+        toast.error('User already exists.');
+        console.error('Bad Request: Please check the input data.', error.response.data);
+  
+      
+      } else if(error.response.status === 500){
+        toast.error('An unexpected error occurred.');
+      }
       setIsSuccess(false);
     } finally {
       setIsLoading(false);
@@ -131,6 +141,7 @@ const Login = () => {
                 )}
               </button>
             </form>
+            <ToastContainer position="top-center" autoClose={5000} />
           </div>
         </div>
       </div>

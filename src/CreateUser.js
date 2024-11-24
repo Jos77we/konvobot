@@ -5,6 +5,9 @@ import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import image1 from "./images/benkikologo.jpg";
 import WebFont from "webfontloader";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 WebFont.load({
   google: {
@@ -25,7 +28,7 @@ function CreateUser() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://auth-backend-1-cluk.onrender.com/api/auth/register",
+        "https://auth-backend-py1a.vercel.app/api/auth/register",
         { phoneNumber, password },
         {
           headers: {
@@ -36,23 +39,33 @@ function CreateUser() {
         }
       );
 
+      console.log(response.data)
       if (response.data) {
-        const publicKey = response.data.stellarPublicKey;
+        const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
-          "https://konvobotchat.onrender.com/user/create-user",
+          "http://localhost:3000/user/create-user",
           { phoneNumber, publicKey }
         );
-        if (accRes.data) {
+        console.log('the data that is stored is', accRes.data.success)
+        if (accRes.data.success) {
           setIsSuccess(true);
+          toast.success('Account Successfully Created!');
         }
         console.log(accRes.data);
       }
       // console.log(response.data, response.data.stellarPublicKey);
     } catch (error) {
+      if (error.response.status === 400) {
+        toast.error('User already exists.');
+        console.error('Bad Request: Please check the input data.', error.response.data);
+    } else if(error.response.status === 500){
+      toast.error('An unexpected error occurred.');
+    }
       console.error("There was an error!", error);
       setIsSuccess(false);
     } finally {
       setIsLoading(false);
+      
     }
   };
 
@@ -152,6 +165,7 @@ function CreateUser() {
                 </div>
               </div>
             </form>
+            <ToastContainer position="top-center" autoClose={5000} />
           </div>
         </div>
       </div>
