@@ -43,7 +43,7 @@ function CreateUser() {
       if (response.data) {
         const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
-          "http://localhost:3000/user/create-user",
+          "https://konvobotchat.onrender.com/user/create-user",
           { phoneNumber, publicKey }
         );
         console.log('the data that is stored is', accRes.data.success)
