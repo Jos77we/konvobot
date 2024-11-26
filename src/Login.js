@@ -46,14 +46,14 @@ const Login = () => {
         );
         if (accRes.data) {
           setIsSuccess(true);
-          toast.success('Account Successfully Created!');
+          toast.success('Log in was successful');
         }
         console.log(accRes.data);
       }
       // console.log(response.data, response.data.stellarPublicKey);
     } catch (error) {
       if (error.response.status === 400) {
-        toast.error('User already exists.');
+        toast.error('Wrong login credentials.');
         console.error('Bad Request: Please check the input data.', error.response.data);
   
       
