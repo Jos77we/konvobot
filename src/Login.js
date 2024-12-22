@@ -27,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://auth-backend-py1a.vercel.app/api/auth/login",
+        "https://auth-backend-khaki.vercel.app/api/auth/login",
         { phoneNumber, password },
         {
           headers: {

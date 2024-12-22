@@ -28,7 +28,7 @@ function CreateUser() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://auth-backend-py1a.vercel.app/api/auth/register",
+        "https://auth-backend-khaki.vercel.app/api/auth/register",
         { phoneNumber, password },
         {
           headers: {
