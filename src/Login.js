@@ -5,8 +5,9 @@ import img1 from "./images/benkikologo.jpg";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import WebFont from "webfontloader";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 WebFont.load({
   google: {
@@ -22,12 +23,13 @@ const Login = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const formSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     setIsSuccess(false);
-    e.preventDefault();
+
     try {
       const response = await axios.post(
-        "https://auth-backend-khaki.vercel.app/api/auth/login",
+        "https://auth-backend-py1a.vercel.app/api/auth/login",
         { phoneNumber, password },
         {
           headers: {
@@ -41,109 +43,116 @@ const Login = () => {
       if (response.data) {
         const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
-          "https://konvobotchat.onrender.com/login/user-login",
+          "http://vwcoo04wgg8ssk44cc0cws0s.95.111.251.93.sslip.io/login/user-login",
           { phoneNumber, publicKey }
         );
         if (accRes.data) {
           setIsSuccess(true);
-          toast.success('Log in was successful');
+          toast.success("Log in was successful");
         }
-        console.log(accRes.data);
       }
-      // console.log(response.data, response.data.stellarPublicKey);
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.error('Wrong login credentials.');
-        console.error('Bad Request: Please check the input data.', error.response.data);
-  
-      
-      } else if(error.response.status === 500){
-        toast.error('An unexpected error occurred.');
+      if (error.response?.status === 400) {
+        toast.error("Wrong login credentials.");
+      } else if (error.response?.status === 500) {
+        toast.error("An unexpected error occurred.");
       }
       setIsSuccess(false);
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
-    <div className="login-container">
-      <div className="login-tab">
-        <div className="logo-item">
+    <div className="container-fluid d-flex align-items-center justify-content-center vh-100 bg-light">
+      <div
+        className="card p-4 shadow-lg"
+        style={{
+          width: "100%",
+          maxWidth: "400px",
+          borderRadius: "1.2rem",
+          fontFamily: "Poppins",
+        }}
+      >
+        <div className="text-center mb-4">
           <img
             src={img1}
             alt="logo"
-            style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+            className="rounded-circle mb-3"
+            style={{ height: "70px", width: "70px" }}
           />
-          <h4
-            style={{
-              marginBottom: "5px",
-              fontFamily: "Poppins",
-              fontSize: "0.8rem",
-            }}
-          >
-            Benkiko DAO
-          </h4>
-        </div>
-        <div className="login-category">
-          <p style={{ fontFamily: "Montserrat" }} className="header-login">
+          <h5 style={{ fontWeight: "600" }}>Benkiko DAO</h5>
+          <small style={{ fontFamily: "Montserrat", fontSize: "0.85rem" }}>
             Welcome Back
-          </p>
-          <div
-            style={{
-              height: "80%",
-              width: "70%",
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "6%",
-            }}
-          >
-            <form onSubmit={formSubmit}>
-              <div>
-                <input
-                  className="container-input"
-                  type="text"
-                  value={phoneNumber}
-                  placeholder="Phone No"
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </div>
-              <div style={{ position: "relative" }}>
-                <input
-                  className="container-input"
-                  
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                />
-                <span
-                  onClick={() => setShowPassword(!showPassword)}
-                    className="show-password" style={{top:'70%', right:'40px'}}
-                >
-                  {showPassword ? <RiEyeCloseLine /> : <RiEyeLine />}
-                </span>
-              </div>
-              <p
-                style={{ fontFamily: "Rubik", fontSize: "0.7rem" }}
-                className="password"
-              >
-                Forgot Password?
-              </p>
-              <button type="submit" className="button-layout">
-                {isLoading ? (
-                  <span>
-                    <AiOutlineLoading3Quarters />
-                  </span> // Replace with your loading icon
-                ) : isSuccess ? (
-                  "Success" // Success message/icon
-                ) : (
-                  "Sign Up"
-                )}
-              </button>
-            </form>
-            <ToastContainer position="top-center" autoClose={5000} />
-          </div>
+          </small>
         </div>
+
+        <form onSubmit={formSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Phone Number</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter phone number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3 position-relative">
+            <label className="form-label">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="position-absolute top-50 end-0 translate-middle-y me-3"
+              style={{ cursor: "pointer", fontSize: "1.2rem", color: "#6c757d", marginTop: '18px' }}
+            >
+              {showPassword ? <RiEyeCloseLine /> : <RiEyeLine />}
+            </span>
+          </div>
+
+          <div className="text-end mb-3">
+            <button
+              type="button"
+              className="btn btn-link p-0 text-decoration-none"
+              style={{ fontSize: "0.8rem" }}
+              onClick={() => {
+                // Future logic: navigate or show a modal
+                console.log("Forgot Password clicked");
+              }}
+            >
+              Forgot Password?
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+            disabled={isLoading}
+            style={{ borderRadius: "0.5rem" }}
+          >
+            {isLoading ? (
+              <>
+                <AiOutlineLoading3Quarters className="me-2 spinner-border spinner-border-sm" />
+                Signing In...
+              </>
+            ) : isSuccess ? (
+              "Success"
+            ) : (
+              "Sign In"
+            )}
+          </button>
+        </form>
+
+        <ToastContainer position="top-center" autoClose={5000} />
       </div>
     </div>
   );
