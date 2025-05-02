@@ -22,7 +22,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const API_URL = 'http://vwcoo04wgg8ssk44cc0cws0s.95.111.251.93.sslip.io'
   const formSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -42,10 +41,9 @@ const Login = () => {
       );
 
       if (response.data) {
-        console.log(`${process.env.API_URL}`)
         const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
-          `${API_URL}/login/user-login`,
+          `https://konvobotchat.onrender.com/login/user-login`,
           { phoneNumber, publicKey }
         );
         if (accRes.data) {
