@@ -43,7 +43,7 @@ const Login = () => {
       if (response.data) {
         const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
-          `https://konvobotchat.onrender.com/login/user-login`,
+          `https://konvo.kipaji.xyz/user-login`,
           { phoneNumber, publicKey }
         );
         if (accRes.data) {
