@@ -43,11 +43,11 @@ const Login = () => {
       if (response.data) {
         const publicKey = response.data.user.stellarPublicKey;
         const accRes = await axios.post(
-          `https://konvo.kipaji.xyz/user-login`,
+          `https://konvo.kipaji.xyz/login/user-login`,
           { phoneNumber, publicKey }
         );
         if (accRes.data) {
-          setIsSuccess(true);
+          setIsSuccess(true); 
           toast.success("Log in was successful");
         }
       }
